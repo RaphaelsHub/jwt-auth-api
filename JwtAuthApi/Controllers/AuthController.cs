@@ -47,9 +47,9 @@ public class AuthController : ControllerBase
     }
 
     [Authorize]
-    [HttpGet("protected")]
-    public IActionResult Protected()
-    {
-        return Ok(new { Message = "You are authorized!" });
-    }
+[HttpGet("protected")]
+public IActionResult Protected()
+{
+    return Ok(new { Message = "You are authorized!" });
+}
 }

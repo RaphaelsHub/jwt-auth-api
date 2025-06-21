@@ -34,4 +34,30 @@ public class JwtService
         var token = tokenHandler.CreateToken(tokenDescriptor);
         return tokenHandler.WriteToken(token);
     }
+
+    public bool ValidateToken(string token)
+    {
+        if (string.IsNullOrEmpty(token))
+            return false;
+
+        var tokenHandler = new JwtSecurityTokenHandler();
+        var key = Encoding.ASCII.GetBytes(_secret);
+        try
+        {
+            tokenHandler.ValidateToken(token, new TokenValidationParameters
+            {
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = new SymmetricSecurityKey(key),
+                ValidateIssuer = false,
+                ValidateAudience = false,
+                ClockSkew = TimeSpan.Zero
+            }, out _);
+        }
+        catch (Exception)
+        {
+            return false;
+        }
+
+        return true;
+    }
 }
